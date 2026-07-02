@@ -32,6 +32,81 @@ I built this guide because I wanted AI that:
 - Model download: 10-60 minutes depending on connection
 - Learning curve: 1-2 days to get comfortable
 
+## Quick Start at a Glance
+
+```mermaid
+flowchart TD
+    A[Download Termux from F-Droid] --> B[pkg update && pkg upgrade]
+    B --> C[curl install Ollama]
+    C --> D[ollama serve]
+    D --> E[ollama pull llama3.2:3b]
+    E --> F[ollama run llama3.2:3b]
+    F --> G[Install Open WebUI]
+    G --> H[open-webui serve]
+    H --> I([Open localhost:8080 in browser])
+
+    style A fill:#e76f51,color:#fff
+    style I fill:#2a9d8f,color:#fff
+```
+
+### System Architecture
+
+```mermaid
+flowchart LR
+    subgraph PHONE["Android Phone"]
+        T[Termux Terminal]
+        O[Ollama Server<br/>localhost:11434]
+        W[Open WebUI<br/>localhost:8080]
+        T --> O
+        O --> W
+    end
+
+    subgraph MODELS["Local Models"]
+        M1[llama3.2:3b]
+        M2[phi3:mini]
+        M3[deepseek-coder]
+    end
+
+    subgraph ACCESS["Access Points"]
+        B1[Phone Browser]
+        B2[Other Device on LAN]
+    end
+
+    O --> M1
+    O --> M2
+    O --> M3
+    W --> B1
+    W --> B2
+
+    style PHONE fill:#1b4332,color:#fff
+    style MODELS fill:#264653,color:#fff
+    style ACCESS fill:#2a9d8f,color:#fff
+```
+
+### Model Selection Guide
+
+```mermaid
+flowchart TD
+    START([How much RAM<br/>does your phone have?]) --> Q1{RAM}
+
+    Q1 -->|2-3 GB| SMALL[Gemma 2 2B<br/>1.6GB download]
+    Q1 -->|4 GB| MED1[Llama 3.2 3B<br/>2.0GB download]
+    Q1 -->|6 GB| MED2[Llama 3.1 8B<br/>4.7GB download]
+    Q1 -->|8 GB+| LARGE[Mixtral 8x7B<br/>26GB download]
+
+    MED1 --> Q2{Primary use?}
+    Q2 -->|General chat| LLAMA3[Llama 3.2 3B]
+    Q2 -->|Reasoning / math| PHI[Phi-3 Mini]
+    Q2 -->|Coding| DEEP[DeepSeek Coder V2 Lite]
+
+    style SMALL fill:#f4a261,color:#000
+    style MED1 fill:#2a9d8f,color:#fff
+    style MED2 fill:#264653,color:#fff
+    style LARGE fill:#e76f51,color:#fff
+```
+
+---
+
 ## Table of Contents
 
 - [Termux Setup](#termux-setup)
